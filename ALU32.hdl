@@ -1,0 +1,49 @@
+CHIP ALU32 {
+    IN x[32], y[32], zx, nx, zy, ny, f, no;
+    OUT out[32], zr, ng, overflow;
+    PARTS:
+        // Procesamiento previo para la mitad baja (bits 0-15)
+        Mux16(a=x[0..15], b=false, sel=zx, out=xl0);
+        Not16(in=xl0, out=xl1);
+        Mux16(a=xl0, b=xl1, sel=nx, out=prexlow);
+        Mux16(a=y[0..15], b=false, sel=zy, out=yl0);
+        Not16(in=yl0, out=yl1);
+        Mux16(a=yl0, b=yl1, sel=ny, out=preylow);
+        // Operaciones baja
+        And16(a=prexlow, b=preylow, out=andlow);
+        Add16CinCout(a=prexlow, b=preylow, cin=false, out=addlow, cout=coutlow, lastcin=dummylow); // cin=0 para baja, ignoramos lastcin
+        Mux16(a=andlow, b=addlow, sel=f, out=preoutlow);
+        Not16(in=preoutlow, out=notoutlow);
+        Mux16(a=preoutlow, b=notoutlow, sel=no, out[0..15]=out[0..15], out[0..7]=orlow1in, out[8..15]=orlow2in);
+        // Procesamiento previo para la mitad alta (bits 16-31)
+        Mux16(a=x[16..31], b=false, sel=zx, out=xh0);
+        Not16(in=xh0, out=xh1);
+        Mux16(a=xh0, b=xh1, sel=nx, out=prexhigh);
+        Mux16(a=y[16..31], b=false, sel=zy, out=yh0);
+        Not16(in=yh0, out=yh1);
+        Mux16(a=yh0, b=yh1, sel=ny, out=preyhigh);
+        // Carry a la alta solo si f=1 (aritmética)
+        Mux(a=false, b=coutlow, sel=f, out=cinhigh);
+        // Operaciones alta
+        And16(a=prexhigh, b=preyhigh, out=andhigh);
+        Add16CinCout(a=prexhigh, b=preyhigh, cin=cinhigh, out=addhigh, cout=couthigh, lastcin=lastcinhigh);
+        Mux16(a=andhigh, b=addhigh, sel=f, out=preouthigh);
+        Not16(in=preouthigh, out=notouthigh);
+        Mux16(a=preouthigh, b=notouthigh, sel=no, out[0..15]=out[16..31], out[0..7]=orhigh1in, out[8..15]=orhigh2in, out[15]=ngpre);
+        // Banderas
+        // zr: AND de zr_baja y zr_alta
+        Or8Way(in=orlow1in, out=orlow1);
+        Or8Way(in=orlow2in, out=orlow2);
+        Or(a=orlow1, b=orlow2, out=orlow);
+        Not(in=orlow, out=zrlow);
+        Or8Way(in=orhigh1in, out=orhigh1);
+        Or8Way(in=orhigh2in, out=orhigh2);
+        Or(a=orhigh1, b=orhigh2, out=orhigh);
+        Not(in=orhigh, out=zrhigh);
+        And(a=zrlow, b=zrhigh, out=zr);
+        // ng: MSB de out (bit 31)
+        And(a=ngpre, b=true, out=ng);
+        // overflow: (carry-in a bit 31 XOR carry-out de bit 31) AND f
+        Xor(a=lastcinhigh, b=couthigh, out=ovfpre);
+        And(a=ovfpre, b=f, out=overflow);
+}
