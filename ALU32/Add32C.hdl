@@ -1,0 +1,22 @@
+/**
+ * 32-bit adder with carry input and carry output
+ * Uses two Add16C instances in chain
+ * Lower part (bits 0-15) receives external cin
+ * Upper part (bits 16-31) receives cin from lower part's cout
+ * Inputs: a[32], b[32], cin
+ * Outputs: sum[32], c31in, c31out
+ */
+
+CHIP Add32C {
+    IN a[32], b[32], cin;
+    OUT sum[32], c31in, c31out;
+    
+    PARTS:
+    // Lower 16 bits (0-15)
+    Add16C(a=a[0..15], b=b[0..15], cin=cin, 
+            sum=sum[0..15], cout=lower_cout, cMSBin=lower_cMSBin);
+    
+    // Upper 16 bits (16-31)
+    Add16C(a=a[16..31], b=b[16..31], cin=lower_cout, 
+            sum=sum[16..31], cout=c31out, cMSBin=c31in);
+}
