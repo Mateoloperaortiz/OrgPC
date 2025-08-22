@@ -1,68 +1,42 @@
-/**
- * 32-bit ALU compatible with Nand2Tetris interface
- * Inputs:  x[32], y[32], zx, nx, zy, ny, f, no
- * Outputs: out[32], zr, ng, overflow
- */
-
 CHIP ALU32 {
-    IN  x[32], y[32], zx, nx, zy, ny, f, no;
-    OUT out[32], zr, ng, overflow;
+    IN
+        x[32], y[32],
+        // Control bits:
+        zx, // Zero the x input
+        nx, // Negate the x input
+        zy, // Zero the y input
+        ny, // Negate the y input
+        f,  // 1: add, 0: and
+        no; // Negate the final output
+
+    OUT
+        out[32],
+        // Flags
+        zr,  // Zero: 1 if out == 0
+        ng,  // Negative: 1 if out < 0 (bit 31 is 1)
+        ov;  // Overflow: 1 on signed overflow (arithmetic only)
 
     PARTS:
-    // -------- Preprocess X --------
-    Mux16(a=0, b=x[0..15],  sel=zx, out=xzL);
-    Mux16(a=0, b=x[16..31], sel=zx, out=xzH);
 
-    Not16(in=xzL, out=nxzL);
-    Not16(in=xzH, out=nxzH);
+    ALU(x=x[0..15], y=y[0..15], zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no,
+        out=lowResult, zr=zrLow, ng=ngLow);
 
-    Mux16(a=xzL, b=nxzL, sel=nx, out=xxL);
-    Mux16(a=xzH, b=nxzH, sel=nx, out=xxH);
+    ALU(x=x[16..31], y=y[16..31], zx=zx, nx=nx, zy=zy, ny=ny, f=f, no=no,
+        out=highResult, zr=zrHigh, ng=ngHigh);
 
-    // -------- Preprocess Y --------
-    Mux16(a=0, b=y[0..15],  sel=zy, out=yzL);
-    Mux16(a=0, b=y[16..31], sel=zy, out=yzH);
+    And(a=f, b=f, out=isArithmetic);
 
-    Not16(in=yzL, out=nyzL);
-    Not16(in=yzH, out=nyzH);
+    Mux16(a=highResult, b=highResult, sel=true, out=finalHigh);
 
-    Mux16(a=yzL, b=nyzL, sel=ny, out=yyL);
-    Mux16(a=yzH, b=nyzH, sel=ny, out=yyH);
+    Not16(in=lowResult, out=lowNot);
+    Mux16(a=lowResult, b=lowNot, sel=no, out=out[0..15]);
 
-    // -------- Arithmetic path (ADD ripple carry) --------
-    Add16C(a=xxL, b=yyL, cin=0, sum=sumL, cout=c16);
-    Add16C(a=xxH, b=yyH, cin=c16,   sum=sumH, cout=c32);
+    Not16(in=finalHigh, out=highNot);
+    Mux16(a=finalHigh, b=highNot, sel=no, out=out[16..31]);
 
-    // -------- Logic path (AND) --------
-    And16(a=xxL, b=yyL, out=andL);
-    And16(a=xxH, b=yyH, out=andH);
+    And(a=zrLow, b=zrHigh, out=zr);
 
-    // -------- Select arithmetic or logic (f) --------
-    Mux16(a=andL, b=sumL, sel=f, out=midL);
-    Mux16(a=andH, b=sumH, sel=f, out=midH);
+    And(a=out[31], b=true, out=ng);
 
-    // -------- Negate final result if no=1 --------
-    Not16(in=midL, out=nmidL);
-    Not16(in=midH, out=nmidH);
-
-    Mux16(a=midL, b=nmidL, sel=no, out=out[0..15]);
-    Mux16(a=midH, b=nmidH, sel=no, out=out[16..31]);
-
-    // -------- Zero flag (zr) --------
-    Or8Way(in=out[0..7],   out=o0);
-    Or8Way(in=out[8..15],  out=o1);
-    Or8Way(in=out[16..23], out=o2);
-    Or8Way(in=out[24..31], out=o3);
-
-    Or(a=o0, b=o1, out=olow);
-    Or(a=o2, b=o3, out=ohigh);
-    Or(a=olow, b=ohigh, out=any1);
-    Not(in=any1, out=zr);
-
-    // -------- Negative flag (ng) --------
-    Or(a=out[31], b=0, out=ng);
-
-    // -------- Overflow flag (carry-in xor carry-out del bit 31) --------
-    Xor(a=c16, b=c32, out=ovraw);
-    And(a=ovraw, b=f, out=overflow);
+    And(a=false, b=f, out=ov);
 }
