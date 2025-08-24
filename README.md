@@ -4,8 +4,7 @@
 - Mateo Lopera  
 - Camilo Arbeláez Restrepo  
 - Juan Gonzalo De Los Rios  
-- Mariana García  
-- Edison Valencia  
+- Mariana García   
 
 **Universidad EAFIT**  
 2025 - 2  
