@@ -32,4 +32,4 @@ Este repositorio contiene la entrega del **Parcial 1 de Organización de Computa
 Incluye:  
 - Respuestas a preguntas de pensamiento crítico.  
 - Explicación del diagrama de la ALU32.  
-- Referencias bibliográficas en formato APA.  
+- Referencias bibliográficas.  
