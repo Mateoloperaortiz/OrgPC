@@ -1,5 +1,8 @@
+# Diagrama ALU32
 
-# Explicación del Diagrama ALU32  
+![Diagrama ALU32](assets/Diagrama_ALU32.png)
+
+# Explicación del Diagrama  
 
 El diagrama de nuestra ALU de 32 bits fue construido a partir de dos ALU de 16 bits: una encargada del procesamiento de la parte baja y otra de la parte alta de los operandos. Los datos de entrada de 32 bits se dividen en mitades, lo que permite que ambas ALU operen en paralelo bajo la dirección de las señales de control (`zx, nx, zy, ny, f, no`), las cuales determinan el tipo de operación a ejecutar.  
 
