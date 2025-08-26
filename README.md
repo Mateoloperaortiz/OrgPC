@@ -22,7 +22,8 @@
 
 2. [Explicación del Diagrama ALU32](diagrama.md)  
 
-3. [Referencias Bibliográficas](referencias.md)  
+3. [Referencias Bibliográficas](referencias.md)
+4. [Video Explicativo](https://youtu.be/K2LyZlfiFHE)  
 
 ---
 
