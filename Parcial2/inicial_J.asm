@@ -97,7 +97,7 @@ M=D
 @L_WW
 D=M
 @XW
-M=M+D
+M=D+M
 @XW
 M=M-1         // XW = XW + WW - 1
 @L_Y
@@ -226,7 +226,7 @@ M=D
 @L_WW
 D=M
 @XW
-M=M+D
+M=D+M
 @XW
 M=M-1        // + WW - 1
 @L_Y
@@ -435,7 +435,7 @@ M=D
 @XW
 D=M
 @ROWADDR
-M=M+D
+M=D+M
 
 // Añadir Y*32 a rowAddr
 @Y
@@ -450,7 +450,7 @@ D;JEQ
 @32
 D=A
 @ROWADDR
-M=M+D
+M=D+M
 @HC
 M=M-1
 @Y_ADD_LOOP
@@ -502,7 +502,7 @@ M=M-1
 @32
 D=A
 @ROWADDR
-M=M+D
+M=D+M
 @HC
 M=M-1
 @ROW_LOOP
@@ -517,4 +517,3 @@ A=M
 (HALT)
 @HALT
 0;JMP
-
