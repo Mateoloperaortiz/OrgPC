@@ -4,14 +4,8 @@
 // Pantalla: SCREEN=16384, Teclado: KBD=24576
 
 (CONST)
-@16384
-D=A
-@SCREEN
-M=D
-@24576
-D=A
-@KBD
-M=D
+// Predefinidos: utilizar @SCREEN y @KBD directamente
+
 
 // Tecla de interés (ASCII 'J' = 74)
 @74
@@ -429,7 +423,7 @@ A=M
 (FILL_RECT)
 // rowAddr = SCREEN + XW
 @SCREEN
-D=M
+D=A
 @ROWADDR
 M=D
 @XW

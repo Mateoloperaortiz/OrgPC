@@ -1,20 +1,19 @@
-// Inicial 'C' interactiva con dos tipografías (base + sombra)
+// Inicial 'L' interactiva con dos tipografias (base + sombra)
 // - Visible desde el inicio
-// - Solo la tecla 'C' activa/desactiva subrayado
+// - Solo la tecla 'L' activa/desactiva subrayado
 // Pantalla: SCREEN=16384, Teclado: KBD=24576
 
 (CONST)
 // Predefinidos: utilizar @SCREEN y @KBD directamente
 
-
-// Tecla de interés (ASCII 'C' = 67)
-@67
+// Tecla de interes (ASCII 'L' = 76)
+@76
 D=A
 @LKEY
 M=D
 
-// Posición y tamaño (en palabras y filas)
-@12
+// Posicion y tamano (en palabras y filas)
+@20
 D=A
 @L_XW
 M=D           // x (en palabras)
@@ -22,7 +21,7 @@ M=D           // x (en palabras)
 D=A
 @L_Y
 M=D           // y (en filas)
-@3
+@4
 D=A
 @L_WW
 M=D           // ancho (palabras)
@@ -55,7 +54,7 @@ M=D
 @RET_ADDR
 M=D
 
-// DIBUJO TIPOGRAFÍA 1 (base): C = columna izq + barra sup + barra inf
+// DIBUJO TIPOGRAFIA 1 (base): L = columna izquierda + barra inferior ancha
 // Columna izquierda
 @L_XW
 D=M
@@ -75,40 +74,13 @@ D=M
 M=D
 @COLOR
 M=-1
-@RET_C1
+@RET_L1
 D=A
 @RET_ADDR
 M=D
 @FILL_RECT
 0;JMP
-(RET_C1)
-
-// Barra superior
-@L_XW
-D=M
-@XW
-M=D
-@L_Y
-D=M
-@Y
-M=D
-@L_WW
-D=M
-@WW
-M=D
-@2
-D=A
-@H
-M=D
-@COLOR
-M=-1
-@RET_C2
-D=A
-@RET_ADDR
-M=D
-@FILL_RECT
-0;JMP
-(RET_C2)
+(RET_L1)
 
 // Barra inferior
 @L_XW
@@ -133,15 +105,15 @@ D=A
 M=D
 @COLOR
 M=-1
-@RET_C3
+@RET_L2
 D=A
 @RET_ADDR
 M=D
 @FILL_RECT
 0;JMP
-(RET_C3)
+(RET_L2)
 
-// DIBUJO TIPOGRAFÍA 2 (sombra): desplazada +1 palabra, +2 filas
+// DIBUJO TIPOGRAFIA 2 (sombra): desplazada +1 palabra, +2 filas
 // Columna izquierda sombra
 @L_XW
 D=M
@@ -165,44 +137,13 @@ D=M
 M=D
 @COLOR
 M=-1
-@RET_CS1
+@RET_LS1
 D=A
 @RET_ADDR
 M=D
 @FILL_RECT
 0;JMP
-(RET_CS1)
-
-// Barra superior sombra
-@L_XW
-D=M
-@1
-D=D+1
-@XW
-M=D
-@L_Y
-D=M
-@2
-D=D+A
-@Y
-M=D
-@L_WW
-D=M
-@WW
-M=D
-@2
-D=A
-@H
-M=D
-@COLOR
-M=-1
-@RET_CS2
-D=A
-@RET_ADDR
-M=D
-@FILL_RECT
-0;JMP
-(RET_CS2)
+(RET_LS1)
 
 // Barra inferior sombra
 @L_XW
@@ -231,13 +172,13 @@ D=A
 M=D
 @COLOR
 M=-1
-@RET_CS3
+@RET_LS2
 D=A
 @RET_ADDR
 M=D
 @FILL_RECT
 0;JMP
-(RET_CS3)
+(RET_LS2)
 
 // BUCLE PRINCIPAL: leer teclado, activar/desactivar subrayado
 (MAIN_LOOP)
@@ -246,7 +187,7 @@ D=M           // D = tecla
 @NO_KEY
 D;JEQ
 
-// ¿Es 'C'?
+// Es 'L'?
 @LKEY
 D=D-M
 @ACT
@@ -341,7 +282,7 @@ M=D
 A=M
 0;JMP
 
-// Relleno de rectángulo: (XW,Y) ancho=WW (palabras), alto=H (filas), color=COLOR
+// Relleno de rectangulo: (XW,Y) ancho=WW (palabras), alto=H (filas), color=COLOR
 (FILL_RECT)
 // rowAddr = SCREEN + XW
 @SCREEN
@@ -353,7 +294,7 @@ D=M
 @ROWADDR
 M=M+D
 
-// Añadir Y*32 a rowAddr
+// Anadir Y*32 a rowAddr
 @Y
 D=M
 @HC
@@ -433,5 +374,3 @@ A=M
 (HALT)
 @HALT
 0;JMP
-
-
