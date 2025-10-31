@@ -1,0 +1,142 @@
+class Track {
+    field int centerX, centerY;
+    field int outerRadius, innerRadius;
+    field int finishLineX;
+    
+    constructor Track new() {
+        let centerX = 256;
+        let centerY = 128;
+        let outerRadius = 110;
+        let innerRadius = 60;
+        let finishLineX = centerX;
+        return this;
+    }
+    
+    method void draw() {
+        do drawOuterCircle();
+        do drawInnerCircle();
+        do drawFinishLine();
+        return;
+    }
+    
+    method void drawOuterCircle() {
+        var int x, y, r;
+        let r = outerRadius;
+        do Screen.setColor(true);
+        do drawCircle(centerX, centerY, r);
+        return;
+    }
+    
+    method void drawInnerCircle() {
+        var int x, y, r;
+        let r = innerRadius;
+        do Screen.setColor(false);
+        do drawFilledCircle(centerX, centerY, r);
+        do Screen.setColor(true);
+        do drawCircle(centerX, centerY, r);
+        return;
+    }
+    
+    method void drawFinishLine() {
+        do Screen.setColor(true);
+        do Screen.drawLine(finishLineX, centerY - outerRadius - 5, 
+                          finishLineX, centerY - innerRadius);
+        return;
+    }
+    
+    method void drawCircle(int cx, int cy, int r) {
+        var int x, y, d;
+        let x = 0;
+        let y = r;
+        let d = 3 - (2 * r);
+        
+        while (~(x > y)) {
+            do drawCirclePoints(cx, cy, x, y);
+            let x = x + 1;
+            
+            if (d > 0) {
+                let y = y - 1;
+                let d = d + (4 * (x - y)) + 10;
+            } else {
+                let d = d + (4 * x) + 6;
+            }
+        }
+        return;
+    }
+    
+    method void drawFilledCircle(int cx, int cy, int r) {
+        var int x, y, d;
+        let x = 0;
+        let y = r;
+        let d = 3 - (2 * r);
+        
+        while (~(x > y)) {
+            do drawFilledCircleLines(cx, cy, x, y);
+            let x = x + 1;
+            
+            if (d > 0) {
+                let y = y - 1;
+                let d = d + (4 * (x - y)) + 10;
+            } else {
+                let d = d + (4 * x) + 6;
+            }
+        }
+        return;
+    }
+    
+    method void drawFilledCircleLines(int cx, int cy, int x, int y) {
+        do Screen.drawLine(cx - x, cy + y, cx + x, cy + y);
+        do Screen.drawLine(cx - x, cy - y, cx + x, cy - y);
+        do Screen.drawLine(cx - y, cy + x, cx + y, cy + x);
+        do Screen.drawLine(cx - y, cy - x, cx + y, cy - x);
+        return;
+    }
+    
+    method void drawCirclePoints(int cx, int cy, int x, int y) {
+        do Screen.drawPixel(cx + x, cy + y);
+        do Screen.drawPixel(cx - x, cy + y);
+        do Screen.drawPixel(cx + x, cy - y);
+        do Screen.drawPixel(cx - x, cy - y);
+        do Screen.drawPixel(cx + y, cy + x);
+        do Screen.drawPixel(cx - y, cy + x);
+        do Screen.drawPixel(cx + y, cy - x);
+        do Screen.drawPixel(cx - y, cy - x);
+        return;
+    }
+    
+    method boolean isValidPosition(int x, int y) {
+        var int dx, dy, distSq, outerSq, innerSq;
+        let dx = x - centerX;
+        let dy = y - centerY;
+        let distSq = (dx * dx) + (dy * dy);
+        let outerSq = outerRadius * outerRadius;
+        let innerSq = innerRadius * innerRadius;
+        
+        return (distSq < outerSq) & (distSq > innerSq);
+    }
+    
+    method int getCenterX() {
+        return centerX;
+    }
+    
+    method int getCenterY() {
+        return centerY;
+    }
+    
+    method int getInnerRadius() {
+        return innerRadius;
+    }
+    
+    method boolean crossedFinishLine(int prevX, int prevY, int currX, int currY) {
+        var int dy1, dy2;
+        let dy1 = prevY - centerY;
+        let dy2 = currY - centerY;
+        
+        return (dy1 > 0) & (dy2 < 0) & (Math.abs(currX - centerX) < 10);
+    }
+    
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
