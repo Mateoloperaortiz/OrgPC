@@ -1,0 +1,74 @@
+class Car {
+    field int x, y;
+    field int angle;
+    field int speed;
+    field int size;
+    field int turnSpeed;
+    
+    constructor Car new(int startX, int startY) {
+        let x = startX;
+        let y = startY;
+        let angle = 0;
+        let speed = 3;
+        let size = 4;
+        let turnSpeed = 5;
+        return this;
+    }
+    
+    method void moveForward() {
+        var int dx, dy;
+        
+        let dx = Trig.cos(angle, speed);
+        let dy = Trig.sin(angle, speed);
+        
+        let x = x + dx;
+        let y = y + dy;
+        
+        return;
+    }
+    
+    method void turnLeft() {
+        let angle = angle - turnSpeed;
+        if (angle < 0) {
+            let angle = angle + 360;
+        }
+        return;
+    }
+    
+    method void turnRight() {
+        let angle = angle + turnSpeed;
+        if (angle > 359) {
+            let angle = angle - 360;
+        }
+        return;
+    }
+    
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x - size, y - size, x + size, y + size);
+        return;
+    }
+    
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x - size, y - size, x + size, y + size);
+        return;
+    }
+    
+    method int getX() {
+        return x;
+    }
+    
+    method int getY() {
+        return y;
+    }
+    
+    method int getAngle() {
+        return angle;
+    }
+    
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
