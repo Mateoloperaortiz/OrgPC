@@ -1,0 +1,143 @@
+class Game {
+    field Track track;
+    field Car car;
+    field boolean exit;
+    field boolean gameOver;
+    field boolean won;
+    field int prevX, prevY;
+    field boolean hasStarted;
+    
+    constructor Game new() {
+        let track = Track.new();
+        let car = Car.new(256, 40);
+        let exit = false;
+        let gameOver = false;
+        let won = false;
+        let hasStarted = false;
+        let prevX = car.getX();
+        let prevY = car.getY();
+        return this;
+    }
+    
+    method void run() {
+        var char key;
+        
+        do Screen.clearScreen();
+        do track.draw();
+        do car.draw();
+        do showInstructions();
+        
+        while (~exit) {
+            let key = Keyboard.keyPressed();
+            
+            if (~gameOver) {
+                do handleInput(key);
+                do updateGame();
+                do checkCollisions();
+                do checkWinCondition();
+            } else {
+                if (key = 81) {  
+                    let exit = true;
+                }
+            }
+            
+            do Sys.wait(50);
+        }
+        
+        return;
+    }
+    
+    method void showInstructions() {
+        do Output.moveCursor(0, 0);
+        do Output.printString("ENDURO - Carrera Circular");
+        do Output.moveCursor(1, 0);
+        do Output.printString("Flecha Izq/Der: Girar");
+        do Output.moveCursor(2, 0);
+        do Output.printString("Q: Salir");
+        return;
+    }
+    
+    method void handleInput(char key) {
+        if (key = 130) {
+            do car.turnLeft();
+            let hasStarted = true;
+        }
+        if (key = 132) {
+            do car.turnRight();
+            let hasStarted = true;
+        }
+        if (key = 81) {
+            let exit = true;
+        }
+        return;
+    }
+    
+    method void updateGame() {
+        let prevX = car.getX();
+        let prevY = car.getY();
+        
+        do car.erase();
+        
+        do car.moveForward();
+        
+        do car.draw();
+        
+        return;
+    }
+    
+    method void checkCollisions() {
+        var boolean valid;
+        
+        let valid = track.isValidPosition(car.getX(), car.getY());
+        
+        if (~valid) {
+            let gameOver = true;
+            let won = false;
+            do showGameOver();
+        }
+        
+        return;
+    }
+    
+    method void checkWinCondition() {
+        var boolean crossed;
+        
+        if (hasStarted) {
+            let crossed = track.crossedFinishLine(prevX, prevY, 
+                                                  car.getX(), car.getY());
+            
+            if (crossed) {
+                let gameOver = true;
+                let won = true;
+                do showVictory();
+            }
+        }
+        
+        return;
+    }
+    
+    method void showGameOver() {
+        do Output.moveCursor(10, 20);
+        do Output.printString("CHOCASTE!");
+        do Output.moveCursor(12, 15);
+        do Output.printString("Presiona Q para salir");
+        return;
+    }
+    
+    method void showVictory() {
+        do Output.moveCursor(10, 20);
+        do Output.printString("GANASTE!");
+        do Output.moveCursor(11, 15);
+        do Output.printString("Completaste la vuelta!");
+        do Output.moveCursor(13, 15);
+        do Output.printString("Presiona Q para salir");
+        return;
+    }
+    
+    method void dispose() {
+        do track.dispose();
+        do car.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}
