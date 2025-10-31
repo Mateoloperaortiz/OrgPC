@@ -1,0 +1,62 @@
+class Trig {
+    
+    function int cos(int angle, int radius) {
+        var int normalizedAngle;
+        
+        let normalizedAngle = angle;
+        while (normalizedAngle < 0) {
+            let normalizedAngle = normalizedAngle + 360;
+        }
+        while (normalizedAngle > 359) {
+            let normalizedAngle = normalizedAngle - 360;
+        }
+        
+        if (normalizedAngle < 11) { return radius; }
+        if (normalizedAngle < 34) { return (radius * 9) / 10; }
+        if (normalizedAngle < 56) { return (radius * 7) / 10; }
+        if (normalizedAngle < 79) { return (radius * 4) / 10; }
+        if (normalizedAngle < 101) { return 0; }
+        if (normalizedAngle < 124) { return -(radius * 4) / 10; }
+        if (normalizedAngle < 146) { return -(radius * 7) / 10; }
+        if (normalizedAngle < 169) { return -(radius * 9) / 10; }
+        if (normalizedAngle < 191) { return -radius; }
+        if (normalizedAngle < 214) { return -(radius * 9) / 10; }
+        if (normalizedAngle < 236) { return -(radius * 7) / 10; }
+        if (normalizedAngle < 259) { return -(radius * 4) / 10; }
+        if (normalizedAngle < 281) { return 0; }
+        if (normalizedAngle < 304) { return (radius * 4) / 10; }
+        if (normalizedAngle < 326) { return (radius * 7) / 10; }
+        if (normalizedAngle < 349) { return (radius * 9) / 10; }
+        return radius;
+    }
+    
+    function int sin(int angle, int radius) {
+        var int normalizedAngle;
+        
+        let normalizedAngle = angle;
+        while (normalizedAngle < 0) {
+            let normalizedAngle = normalizedAngle + 360;
+        }
+        while (normalizedAngle > 359) {
+            let normalizedAngle = normalizedAngle - 360;
+        }
+        
+        if (normalizedAngle < 11) { return 0; }
+        if (normalizedAngle < 34) { return (radius * 4) / 10; }
+        if (normalizedAngle < 56) { return (radius * 7) / 10; }
+        if (normalizedAngle < 79) { return (radius * 9) / 10; }
+        if (normalizedAngle < 101) { return radius; }
+        if (normalizedAngle < 124) { return (radius * 9) / 10; }
+        if (normalizedAngle < 146) { return (radius * 7) / 10; }
+        if (normalizedAngle < 169) { return (radius * 4) / 10; }
+        if (normalizedAngle < 191) { return 0; }
+        if (normalizedAngle < 214) { return -(radius * 4) / 10; }
+        if (normalizedAngle < 236) { return -(radius * 7) / 10; }
+        if (normalizedAngle < 259) { return -(radius * 9) / 10; }
+        if (normalizedAngle < 281) { return -radius; }
+        if (normalizedAngle < 304) { return -(radius * 9) / 10; }
+        if (normalizedAngle < 326) { return -(radius * 7) / 10; }
+        if (normalizedAngle < 349) { return -(radius * 4) / 10; }
+        return 0;
+    }
+}
