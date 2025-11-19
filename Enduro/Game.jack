@@ -6,6 +6,8 @@ class Game {
     field boolean won;
     field int prevX, prevY;
     field boolean hasStarted;
+    field ObstacleManager obstacleManager;
+    field int laps;
     
     constructor Game new() {
         let track = Track.new();
@@ -16,6 +18,8 @@ class Game {
         let hasStarted = false;
         let prevX = car.getX();
         let prevY = car.getY();
+        let obstacleManager = ObstacleManager.new(20); // Max 20 obstacles
+        let laps = 0;
         return this;
     }
     
@@ -24,6 +28,7 @@ class Game {
         
         do Screen.clearScreen();
         do track.draw();
+        do obstacleManager.draw();
         do car.draw();
         do showInstructions();
         
@@ -81,6 +86,7 @@ class Game {
         do car.moveForward();
         
         do car.draw();
+        do obstacleManager.draw();
         
         return;
     }
@@ -91,6 +97,12 @@ class Game {
         let valid = track.isValidPosition(car.getX(), car.getY());
         
         if (~valid) {
+            let gameOver = true;
+            let won = false;
+            do showGameOver();
+        }
+
+        if (obstacleManager.checkCollisions(car.getX(), car.getY())) {
             let gameOver = true;
             let won = false;
             do showGameOver();
@@ -107,9 +119,9 @@ class Game {
                                                   car.getX(), car.getY());
             
             if (crossed) {
-                let gameOver = true;
-                let won = true;
-                do showVictory();
+                let laps = laps + 1;
+                do obstacleManager.spawnObstacles(laps);
+                do showLapMessage();
             }
         }
         
@@ -124,19 +136,17 @@ class Game {
         return;
     }
     
-    method void showVictory() {
-        do Output.moveCursor(10, 20);
-        do Output.printString("GANASTE!");
-        do Output.moveCursor(11, 15);
-        do Output.printString("Completaste la vuelta!");
-        do Output.moveCursor(13, 15);
-        do Output.printString("Presiona Q para salir");
+    method void showLapMessage() {
+        do Output.moveCursor(0, 40);
+        do Output.printString("Vueltas: ");
+        do Output.printInt(laps);
         return;
     }
     
     method void dispose() {
         do track.dispose();
         do car.dispose();
+        do obstacleManager.dispose();
         do Memory.deAlloc(this);
         return;
     }

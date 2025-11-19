@@ -1,0 +1,146 @@
+class ObstacleManager {
+    field Array obstacles;
+    field int obstacleCount;
+    field int maxObstacles;
+    field int seed;
+
+    constructor ObstacleManager new(int max) {
+        let maxObstacles = max;
+        let obstacles = Array.new(maxObstacles);
+        let obstacleCount = 0;
+        let seed = 12345; // Initial seed
+        return this;
+    }
+
+    method void spawnObstacles(int lap) {
+        var int i;
+        var int x, y, r, theta;
+        var Obstacle obs;
+        
+        // Clear existing obstacles
+        do clearObstacles();
+        
+        // Determine number of obstacles based on lap (cap at max)
+        let obstacleCount = lap * 2;
+        if (obstacleCount > maxObstacles) {
+            let obstacleCount = maxObstacles;
+        }
+        
+        let i = 0;
+        while (i < obstacleCount) {
+            // Generate random position within track bounds
+            // Track center is (256, 128)
+            // Inner radius ~60, Outer ~110
+            // We want obstacles between radius 70 and 100 to be safe-ish but annoying
+            
+            // Random angle 0-360
+            let theta = randRange(360);
+            
+            // Random radius 70-100
+            let r = 70 + randRange(30);
+            
+            let x = 256 + Trig.cos(theta, r);
+            let y = 128 + Trig.sin(theta, r);
+            
+            let obs = Obstacle.new(x, y, 5); // Size 5
+            let obstacles[i] = obs;
+            
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void draw() {
+        var int i;
+        var Obstacle obs;
+        
+        let i = 0;
+        while (i < obstacleCount) {
+            let obs = obstacles[i];
+            do obs.draw();
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method boolean checkCollisions(int carX, int carY) {
+        var int i;
+        var Obstacle obs;
+        var boolean hit;
+        
+        let i = 0;
+        while (i < obstacleCount) {
+            let obs = obstacles[i];
+            let hit = obs.checkCollision(carX, carY, 4); // Car size is 4
+            if (hit) {
+                return true;
+            }
+            let i = i + 1;
+        }
+        return false;
+    }
+
+    method void clearObstacles() {
+        var int i;
+        var Obstacle obs;
+        
+        let i = 0;
+        while (i < obstacleCount) {
+            let obs = obstacles[i];
+            do obs.dispose();
+            let i = i + 1;
+        }
+        let obstacleCount = 0;
+        return;
+    }
+
+    // Simple LCG Random Number Generator
+    method int rand() {
+        // x = (a * x + c) % m
+        // Using small constants to avoid overflow in 16-bit signed integers (max 32767)
+        // a = 7, c = 1, m = 32749
+        let seed = (7 * seed) + 1;
+        if (seed < 0) {
+            let seed = seed + 32749;
+        }
+        // Modulo is implicit if we keep it positive and small enough, 
+        // but let's do explicit mod if needed. 
+        // With a=7, max result is ~ 7*32767 = 229369 which overflows 16-bit.
+        // Wait, Jack integers are 16-bit signed (-32768 to 32767).
+        // We need to be very careful.
+        // Let's use a very small generator or just take input-based randomness if possible.
+        // Or just use: seed = (seed * 2053) + 13849; and ignore overflow?
+        // Overflow behavior in Jack is defined as wrapping.
+        
+        // Let's try a safe approach for 16-bit:
+        // x = (x * 17 + 1) % 10000;
+        let seed = (seed * 17) + 1;
+        if (seed < 0) { let seed = -seed; }
+        return seed;
+    }
+
+    method int randRange(int range) {
+        var int r;
+        let r = rand();
+        // Modulo using repeated subtraction if no % operator (Jack has no %)
+        // Jack DOES NOT have % operator.
+        // We need a mod function.
+        return Utils_mod(r, range);
+    }
+    
+    // Helper for modulo since Jack might not have it in standard library depending on version,
+    // but usually Math class has multiply/divide. 
+    // a % b = a - (b * (a / b))
+    method int Utils_mod(int a, int b) {
+        var int q;
+        let q = a / b;
+        return a - (b * q);
+    }
+
+    method void dispose() {
+        do clearObstacles();
+        do obstacles.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

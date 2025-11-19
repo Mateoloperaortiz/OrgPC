@@ -1,0 +1,35 @@
+class Obstacle {
+    field int x, y;
+    field int size;
+
+    constructor Obstacle new(int startX, int startY, int s) {
+        let x = startX;
+        let y = startY;
+        let size = s;
+        return this;
+    }
+
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x - size, y - size, x + size, y + size);
+        return;
+    }
+
+    method boolean checkCollision(int carX, int carY, int carSize) {
+        // Simple AABB collision detection
+        // Car box: [carX-carSize, carX+carSize] x [carY-carSize, carY+carSize]
+        // Obstacle box: [x-size, x+size] x [y-size, y+size]
+        
+        var boolean xOverlap, yOverlap;
+        
+        let xOverlap = ((carX + carSize) > (x - size)) & ((carX - carSize) < (x + size));
+        let yOverlap = ((carY + carSize) > (y - size)) & ((carY - carSize) < (y + size));
+        
+        return xOverlap & yOverlap;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

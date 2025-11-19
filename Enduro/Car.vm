@@ -1,0 +1,149 @@
+function Car.new 0
+    push constant 6
+    call Memory.alloc 1
+    pop pointer 0
+    push argument 0
+    pop this 0
+    push argument 1
+    pop this 1
+    push constant 0
+    pop this 2
+    push constant 3
+    pop this 3
+    push constant 4
+    pop this 4
+    push constant 5
+    pop this 5
+    push pointer 0
+    return
+function Car.moveForward 2
+    push argument 0
+    pop pointer 0
+    push this 2
+    push this 3
+    call Trig.cos 2
+    pop local 0
+    push this 2
+    push this 3
+    call Trig.sin 2
+    pop local 1
+    push this 0
+    push local 0
+    add
+    pop this 0
+    push this 1
+    push local 1
+    add
+    pop this 1
+    push constant 0
+    return
+function Car.turnLeft 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    push this 5
+    sub
+    pop this 2
+    push this 2
+    push constant 0
+    lt
+    not
+    if-goto Car_1
+    push this 2
+    push constant 360
+    add
+    pop this 2
+    goto Car_0
+label Car_1
+label Car_0
+    push constant 0
+    return
+function Car.turnRight 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    push this 5
+    add
+    pop this 2
+    push this 2
+    push constant 359
+    gt
+    not
+    if-goto Car_3
+    push this 2
+    push constant 360
+    sub
+    pop this 2
+    goto Car_2
+label Car_3
+label Car_2
+    push constant 0
+    return
+function Car.draw 0
+    push argument 0
+    pop pointer 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push this 0
+    push this 4
+    sub
+    push this 1
+    push this 4
+    sub
+    push this 0
+    push this 4
+    add
+    push this 1
+    push this 4
+    add
+    call Screen.drawRectangle 4
+    pop temp 0
+    push constant 0
+    return
+function Car.erase 0
+    push argument 0
+    pop pointer 0
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+    push this 0
+    push this 4
+    sub
+    push this 1
+    push this 4
+    sub
+    push this 0
+    push this 4
+    add
+    push this 1
+    push this 4
+    add
+    call Screen.drawRectangle 4
+    pop temp 0
+    push constant 0
+    return
+function Car.getX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Car.getY 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function Car.getAngle 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    return
+function Car.dispose 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

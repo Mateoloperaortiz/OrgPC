@@ -1,0 +1,452 @@
+function Track.new 0
+    push constant 5
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 256
+    pop this 0
+    push constant 128
+    pop this 1
+    push constant 110
+    pop this 2
+    push constant 60
+    pop this 3
+    push this 0
+    pop this 4
+    push pointer 0
+    return
+function Track.draw 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Track.drawOuterCircle 1
+    pop temp 0
+    push pointer 0
+    call Track.drawInnerCircle 1
+    pop temp 0
+    push pointer 0
+    call Track.drawFinishLine 1
+    pop temp 0
+    push constant 0
+    return
+function Track.drawOuterCircle 3
+    push argument 0
+    pop pointer 0
+    push this 2
+    pop local 2
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push pointer 0
+    push this 0
+    push this 1
+    push local 2
+    call Track.drawCircle 4
+    pop temp 0
+    push constant 0
+    return
+function Track.drawInnerCircle 3
+    push argument 0
+    pop pointer 0
+    push this 3
+    pop local 2
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+    push pointer 0
+    push this 0
+    push this 1
+    push local 2
+    call Track.drawFilledCircle 4
+    pop temp 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push pointer 0
+    push this 0
+    push this 1
+    push local 2
+    call Track.drawCircle 4
+    pop temp 0
+    push constant 0
+    return
+function Track.drawFinishLine 0
+    push argument 0
+    pop pointer 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push this 4
+    push this 1
+    push this 2
+    sub
+    push constant 5
+    sub
+    push this 4
+    push this 1
+    push this 3
+    sub
+    call Screen.drawLine 4
+    pop temp 0
+    push constant 0
+    return
+function Track.drawCircle 3
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+    push argument 3
+    pop local 1
+    push constant 3
+    push constant 2
+    push argument 3
+    call Math.multiply 2
+    sub
+    pop local 2
+label Track_0
+    push local 0
+    push local 1
+    gt
+    not
+    not
+    if-goto Track_1
+    push pointer 0
+    push argument 1
+    push argument 2
+    push local 0
+    push local 1
+    call Track.drawCirclePoints 5
+    pop temp 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    push local 2
+    push constant 0
+    gt
+    not
+    if-goto Track_3
+    push local 1
+    push constant 1
+    sub
+    pop local 1
+    push local 2
+    push constant 4
+    push local 0
+    push local 1
+    sub
+    call Math.multiply 2
+    add
+    push constant 10
+    add
+    pop local 2
+    goto Track_2
+label Track_3
+    push local 2
+    push constant 4
+    push local 0
+    call Math.multiply 2
+    add
+    push constant 6
+    add
+    pop local 2
+label Track_2
+    goto Track_0
+label Track_1
+    push constant 0
+    return
+function Track.drawFilledCircle 3
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+    push argument 3
+    pop local 1
+    push constant 3
+    push constant 2
+    push argument 3
+    call Math.multiply 2
+    sub
+    pop local 2
+label Track_4
+    push local 0
+    push local 1
+    gt
+    not
+    not
+    if-goto Track_5
+    push pointer 0
+    push argument 1
+    push argument 2
+    push local 0
+    push local 1
+    call Track.drawFilledCircleLines 5
+    pop temp 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    push local 2
+    push constant 0
+    gt
+    not
+    if-goto Track_7
+    push local 1
+    push constant 1
+    sub
+    pop local 1
+    push local 2
+    push constant 4
+    push local 0
+    push local 1
+    sub
+    call Math.multiply 2
+    add
+    push constant 10
+    add
+    pop local 2
+    goto Track_6
+label Track_7
+    push local 2
+    push constant 4
+    push local 0
+    call Math.multiply 2
+    add
+    push constant 6
+    add
+    pop local 2
+label Track_6
+    goto Track_4
+label Track_5
+    push constant 0
+    return
+function Track.drawFilledCircleLines 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push argument 3
+    sub
+    push argument 2
+    push argument 4
+    add
+    push argument 1
+    push argument 3
+    add
+    push argument 2
+    push argument 4
+    add
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 1
+    push argument 3
+    sub
+    push argument 2
+    push argument 4
+    sub
+    push argument 1
+    push argument 3
+    add
+    push argument 2
+    push argument 4
+    sub
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 1
+    push argument 4
+    sub
+    push argument 2
+    push argument 3
+    add
+    push argument 1
+    push argument 4
+    add
+    push argument 2
+    push argument 3
+    add
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 1
+    push argument 4
+    sub
+    push argument 2
+    push argument 3
+    sub
+    push argument 1
+    push argument 4
+    add
+    push argument 2
+    push argument 3
+    sub
+    call Screen.drawLine 4
+    pop temp 0
+    push constant 0
+    return
+function Track.drawCirclePoints 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push argument 3
+    add
+    push argument 2
+    push argument 4
+    add
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 3
+    sub
+    push argument 2
+    push argument 4
+    add
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 3
+    add
+    push argument 2
+    push argument 4
+    sub
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 3
+    sub
+    push argument 2
+    push argument 4
+    sub
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 4
+    add
+    push argument 2
+    push argument 3
+    add
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 4
+    sub
+    push argument 2
+    push argument 3
+    add
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 4
+    add
+    push argument 2
+    push argument 3
+    sub
+    call Screen.drawPixel 2
+    pop temp 0
+    push argument 1
+    push argument 4
+    sub
+    push argument 2
+    push argument 3
+    sub
+    call Screen.drawPixel 2
+    pop temp 0
+    push constant 0
+    return
+function Track.isValidPosition 5
+    push argument 0
+    pop pointer 0
+    push argument 1
+    push this 0
+    sub
+    pop local 0
+    push argument 2
+    push this 1
+    sub
+    pop local 1
+    push local 0
+    push local 0
+    call Math.multiply 2
+    push local 1
+    push local 1
+    call Math.multiply 2
+    add
+    pop local 2
+    push this 2
+    push this 2
+    call Math.multiply 2
+    pop local 3
+    push this 3
+    push this 3
+    call Math.multiply 2
+    pop local 4
+    push local 2
+    push local 3
+    lt
+    push local 2
+    push local 4
+    gt
+    and
+    return
+function Track.getCenterX 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Track.getCenterY 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function Track.getInnerRadius 0
+    push argument 0
+    pop pointer 0
+    push this 3
+    return
+function Track.crossedFinishLine 2
+    push argument 0
+    pop pointer 0
+    push argument 4
+    push this 1
+    lt
+    push argument 2
+    push this 1
+    lt
+    and
+    pop local 1
+    push local 1
+    not
+    not
+    if-goto Track_9
+    push constant 0
+    return
+    goto Track_8
+label Track_9
+label Track_8
+    push argument 1
+    push this 0
+    lt
+    push argument 3
+    push this 0
+    lt
+    not
+    and
+    push argument 1
+    push this 0
+    gt
+    push argument 3
+    push this 0
+    gt
+    not
+    and
+    or
+    pop local 0
+    push local 0
+    return
+function Track.dispose 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

@@ -1,0 +1,488 @@
+function Trig.cos 1
+    push argument 0
+    pop local 0
+label Trig_0
+    push local 0
+    push constant 0
+    lt
+    not
+    if-goto Trig_1
+    push local 0
+    push constant 360
+    add
+    pop local 0
+    goto Trig_0
+label Trig_1
+label Trig_2
+    push local 0
+    push constant 359
+    gt
+    not
+    if-goto Trig_3
+    push local 0
+    push constant 360
+    sub
+    pop local 0
+    goto Trig_2
+label Trig_3
+    push local 0
+    push constant 11
+    lt
+    not
+    if-goto Trig_5
+    push argument 1
+    return
+    goto Trig_4
+label Trig_5
+label Trig_4
+    push local 0
+    push constant 34
+    lt
+    not
+    if-goto Trig_7
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_6
+label Trig_7
+label Trig_6
+    push local 0
+    push constant 56
+    lt
+    not
+    if-goto Trig_9
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_8
+label Trig_9
+label Trig_8
+    push local 0
+    push constant 79
+    lt
+    not
+    if-goto Trig_11
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_10
+label Trig_11
+label Trig_10
+    push local 0
+    push constant 101
+    lt
+    not
+    if-goto Trig_13
+    push constant 0
+    return
+    goto Trig_12
+label Trig_13
+label Trig_12
+    push local 0
+    push constant 124
+    lt
+    not
+    if-goto Trig_15
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_14
+label Trig_15
+label Trig_14
+    push local 0
+    push constant 146
+    lt
+    not
+    if-goto Trig_17
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_16
+label Trig_17
+label Trig_16
+    push local 0
+    push constant 169
+    lt
+    not
+    if-goto Trig_19
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_18
+label Trig_19
+label Trig_18
+    push local 0
+    push constant 191
+    lt
+    not
+    if-goto Trig_21
+    push argument 1
+    neg
+    return
+    goto Trig_20
+label Trig_21
+label Trig_20
+    push local 0
+    push constant 214
+    lt
+    not
+    if-goto Trig_23
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_22
+label Trig_23
+label Trig_22
+    push local 0
+    push constant 236
+    lt
+    not
+    if-goto Trig_25
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_24
+label Trig_25
+label Trig_24
+    push local 0
+    push constant 259
+    lt
+    not
+    if-goto Trig_27
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_26
+label Trig_27
+label Trig_26
+    push local 0
+    push constant 281
+    lt
+    not
+    if-goto Trig_29
+    push constant 0
+    return
+    goto Trig_28
+label Trig_29
+label Trig_28
+    push local 0
+    push constant 304
+    lt
+    not
+    if-goto Trig_31
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_30
+label Trig_31
+label Trig_30
+    push local 0
+    push constant 326
+    lt
+    not
+    if-goto Trig_33
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_32
+label Trig_33
+label Trig_32
+    push local 0
+    push constant 349
+    lt
+    not
+    if-goto Trig_35
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_34
+label Trig_35
+label Trig_34
+    push argument 1
+    return
+function Trig.sin 1
+    push argument 0
+    pop local 0
+label Trig_36
+    push local 0
+    push constant 0
+    lt
+    not
+    if-goto Trig_37
+    push local 0
+    push constant 360
+    add
+    pop local 0
+    goto Trig_36
+label Trig_37
+label Trig_38
+    push local 0
+    push constant 359
+    gt
+    not
+    if-goto Trig_39
+    push local 0
+    push constant 360
+    sub
+    pop local 0
+    goto Trig_38
+label Trig_39
+    push local 0
+    push constant 11
+    lt
+    not
+    if-goto Trig_41
+    push constant 0
+    return
+    goto Trig_40
+label Trig_41
+label Trig_40
+    push local 0
+    push constant 34
+    lt
+    not
+    if-goto Trig_43
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_42
+label Trig_43
+label Trig_42
+    push local 0
+    push constant 56
+    lt
+    not
+    if-goto Trig_45
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_44
+label Trig_45
+label Trig_44
+    push local 0
+    push constant 79
+    lt
+    not
+    if-goto Trig_47
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_46
+label Trig_47
+label Trig_46
+    push local 0
+    push constant 101
+    lt
+    not
+    if-goto Trig_49
+    push argument 1
+    return
+    goto Trig_48
+label Trig_49
+label Trig_48
+    push local 0
+    push constant 124
+    lt
+    not
+    if-goto Trig_51
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_50
+label Trig_51
+label Trig_50
+    push local 0
+    push constant 146
+    lt
+    not
+    if-goto Trig_53
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_52
+label Trig_53
+label Trig_52
+    push local 0
+    push constant 169
+    lt
+    not
+    if-goto Trig_55
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_54
+label Trig_55
+label Trig_54
+    push local 0
+    push constant 191
+    lt
+    not
+    if-goto Trig_57
+    push constant 0
+    return
+    goto Trig_56
+label Trig_57
+label Trig_56
+    push local 0
+    push constant 214
+    lt
+    not
+    if-goto Trig_59
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_58
+label Trig_59
+label Trig_58
+    push local 0
+    push constant 236
+    lt
+    not
+    if-goto Trig_61
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_60
+label Trig_61
+label Trig_60
+    push local 0
+    push constant 259
+    lt
+    not
+    if-goto Trig_63
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_62
+label Trig_63
+label Trig_62
+    push local 0
+    push constant 281
+    lt
+    not
+    if-goto Trig_65
+    push argument 1
+    neg
+    return
+    goto Trig_64
+label Trig_65
+label Trig_64
+    push local 0
+    push constant 304
+    lt
+    not
+    if-goto Trig_67
+    push argument 1
+    push constant 9
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_66
+label Trig_67
+label Trig_66
+    push local 0
+    push constant 326
+    lt
+    not
+    if-goto Trig_69
+    push argument 1
+    push constant 7
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_68
+label Trig_69
+label Trig_68
+    push local 0
+    push constant 349
+    lt
+    not
+    if-goto Trig_71
+    push argument 1
+    push constant 4
+    call Math.multiply 2
+    neg
+    push constant 10
+    call Math.divide 2
+    return
+    goto Trig_70
+label Trig_71
+label Trig_70
+    push constant 0
+    return
