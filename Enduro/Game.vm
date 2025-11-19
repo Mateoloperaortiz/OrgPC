@@ -83,6 +83,17 @@ label Game_3
     goto Game_4
 label Game_5
 label Game_4
+    push local 0
+    push constant 82
+    eq
+    not
+    if-goto Game_7
+    push pointer 0
+    call Game.resetGame 1
+    pop temp 0
+    goto Game_6
+label Game_7
+label Game_6
 label Game_2
     push constant 50
     call Sys.wait 1
@@ -235,23 +246,9 @@ function Game.handleInput 0
     push constant 130
     eq
     not
-    if-goto Game_7
-    push this 1
-    call Car.turnLeft 1
-    pop temp 0
-    push constant 1
-    neg
-    pop this 7
-    goto Game_6
-label Game_7
-label Game_6
-    push argument 1
-    push constant 132
-    eq
-    not
     if-goto Game_9
     push this 1
-    call Car.turnRight 1
+    call Car.turnLeft 1
     pop temp 0
     push constant 1
     neg
@@ -260,16 +257,30 @@ label Game_6
 label Game_9
 label Game_8
     push argument 1
-    push constant 81
+    push constant 132
     eq
     not
     if-goto Game_11
+    push this 1
+    call Car.turnRight 1
+    pop temp 0
     push constant 1
     neg
-    pop this 2
+    pop this 7
     goto Game_10
 label Game_11
 label Game_10
+    push argument 1
+    push constant 81
+    eq
+    not
+    if-goto Game_13
+    push constant 1
+    neg
+    pop this 2
+    goto Game_12
+label Game_13
+label Game_12
     push constant 0
     return
 function Game.updateGame 0
@@ -308,25 +319,6 @@ function Game.checkCollisions 1
     push local 0
     not
     not
-    if-goto Game_13
-    push constant 1
-    neg
-    pop this 3
-    push constant 0
-    pop this 4
-    push pointer 0
-    call Game.showGameOver 1
-    pop temp 0
-    goto Game_12
-label Game_13
-label Game_12
-    push this 8
-    push this 1
-    call Car.getX 1
-    push this 1
-    call Car.getY 1
-    call ObstacleManager.checkCollisions 3
-    not
     if-goto Game_15
     push constant 1
     neg
@@ -339,6 +331,25 @@ label Game_12
     goto Game_14
 label Game_15
 label Game_14
+    push this 8
+    push this 1
+    call Car.getX 1
+    push this 1
+    call Car.getY 1
+    call ObstacleManager.checkCollisions 3
+    not
+    if-goto Game_17
+    push constant 1
+    neg
+    pop this 3
+    push constant 0
+    pop this 4
+    push pointer 0
+    call Game.showGameOver 1
+    pop temp 0
+    goto Game_16
+label Game_17
+label Game_16
     push constant 0
     return
 function Game.checkWinCondition 1
@@ -346,7 +357,7 @@ function Game.checkWinCondition 1
     pop pointer 0
     push this 7
     not
-    if-goto Game_17
+    if-goto Game_19
     push this 0
     push this 5
     push this 6
@@ -358,7 +369,7 @@ function Game.checkWinCondition 1
     pop local 0
     push local 0
     not
-    if-goto Game_19
+    if-goto Game_21
     push this 9
     push constant 1
     add
@@ -370,12 +381,12 @@ function Game.checkWinCondition 1
     push pointer 0
     call Game.showLapMessage 1
     pop temp 0
+    goto Game_20
+label Game_21
+label Game_20
     goto Game_18
 label Game_19
 label Game_18
-    goto Game_16
-label Game_17
-label Game_16
     push constant 0
     return
 function Game.showGameOver 0
@@ -411,47 +422,53 @@ function Game.showGameOver 0
     push constant 15
     call Output.moveCursor 2
     pop temp 0
-    push constant 21
+    push constant 24
     call String.new 1
-    push constant 80
-    call String.appendChar 2
-    push constant 114
-    call String.appendChar 2
-    push constant 101
-    call String.appendChar 2
-    push constant 115
-    call String.appendChar 2
-    push constant 105
-    call String.appendChar 2
-    push constant 111
-    call String.appendChar 2
-    push constant 110
-    call String.appendChar 2
-    push constant 97
-    call String.appendChar 2
-    push constant 32
-    call String.appendChar 2
     push constant 81
     call String.appendChar 2
-    push constant 32
-    call String.appendChar 2
-    push constant 112
-    call String.appendChar 2
-    push constant 97
-    call String.appendChar 2
-    push constant 114
-    call String.appendChar 2
-    push constant 97
+    push constant 58
     call String.appendChar 2
     push constant 32
     call String.appendChar 2
-    push constant 115
+    push constant 83
     call String.appendChar 2
     push constant 97
     call String.appendChar 2
     push constant 108
     call String.appendChar 2
     push constant 105
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 124
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 82
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 82
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 97
     call String.appendChar 2
     push constant 114
     call String.appendChar 2
@@ -490,6 +507,49 @@ function Game.showLapMessage 0
     pop temp 0
     push this 9
     call Output.printInt 1
+    pop temp 0
+    push constant 0
+    return
+function Game.resetGame 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    call Car.dispose 1
+    pop temp 0
+    push this 8
+    call ObstacleManager.dispose 1
+    pop temp 0
+    call Screen.clearScreen 0
+    pop temp 0
+    push constant 256
+    push constant 40
+    call Car.new 2
+    pop this 1
+    push constant 20
+    call ObstacleManager.new 1
+    pop this 8
+    push constant 0
+    pop this 9
+    push constant 0
+    pop this 3
+    push constant 0
+    pop this 4
+    push constant 0
+    pop this 7
+    push this 1
+    call Car.getX 1
+    pop this 5
+    push this 1
+    call Car.getY 1
+    pop this 6
+    push this 0
+    call Track.draw 1
+    pop temp 0
+    push this 1
+    call Car.draw 1
+    pop temp 0
+    push pointer 0
+    call Game.showInstructions 1
     pop temp 0
     push constant 0
     return

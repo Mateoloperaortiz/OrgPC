@@ -41,9 +41,8 @@ class Game {
                 do checkCollisions();
                 do checkWinCondition();
             } else {
-                if (key = 81) {  
-                    let exit = true;
-                }
+                if (key = 81) { let exit = true; } // Q
+                if (key = 82) { do resetGame(); }  // R
             }
             
             do Sys.wait(50);
@@ -132,7 +131,7 @@ class Game {
         do Output.moveCursor(10, 20);
         do Output.printString("CHOCASTE!");
         do Output.moveCursor(12, 15);
-        do Output.printString("Presiona Q para salir");
+        do Output.printString("Q: Salir | R: Reintentar");
         return;
     }
     
@@ -140,6 +139,28 @@ class Game {
         do Output.moveCursor(0, 40);
         do Output.printString("Vueltas: ");
         do Output.printInt(laps);
+        return;
+    }
+
+    method void resetGame() {
+        do car.dispose();
+        do obstacleManager.dispose();
+        
+        do Screen.clearScreen();
+        
+        let car = Car.new(256, 40);
+        let obstacleManager = ObstacleManager.new(20);
+        let laps = 0;
+        let gameOver = false;
+        let won = false;
+        let hasStarted = false;
+        let prevX = car.getX();
+        let prevY = car.getY();
+        
+        do track.draw();
+        do car.draw();
+        do showInstructions();
+        
         return;
     }
     
